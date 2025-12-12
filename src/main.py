@@ -1,27 +1,43 @@
-from transformers import AutoModelForCausalLM, AutoTokenizer
-
 import os
 
-os.environ["HF_HOME"] = r"G:\huggingface_cache"
-os.environ["TRANSFORMERS_CACHE"] = r"G:\huggingface_cache\models"
+# Set all Hugging Face cache directories BEFORE importing transformers
+# This ensures all downloads go to G: drive instead of C: drive
+cache_base = r"G:\huggingface_cache"
+os.environ["HF_HOME"] = cache_base
+os.environ["HUGGINGFACE_HUB_CACHE"] = os.path.join(cache_base, "hub")
+os.environ["HF_DATASETS_CACHE"] = os.path.join(cache_base, "datasets")
+os.environ["TRANSFORMERS_CACHE"] = os.path.join(cache_base, "models")
 
-device = "cuda" # the device to load the model onto
+from transformers import AutoModelForCausalLM, AutoTokenizer
+# import torch
 
-# model = AutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-Instruct-v0.2")
-# tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-Instruct-v0.2")
+device = "cuda" 
+print(f"Using device: {device}")
 
-messages = [
-    {"role": "user", "content": "What is your favourite condiment?"},
-    {"role": "assistant", "content": "Well, I'm quite partial to a good squeeze of fresh lemon juice. It adds just the right amount of zesty flavour to whatever I'm cooking up in the kitchen!"},
-    {"role": "user", "content": "Do you have mayonnaise recipes?"}
-]
+model_name = "gpt2"
+print(f"Loading model: {model_name}")
 
-encodeds = tokenizer.apply_chat_template(messages, return_tensors="pt")
-
-model_inputs = encodeds.to(device)
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForCausalLM.from_pretrained(model_name)
 model.to(device)
 
-generated_ids = model.generate(model_inputs, max_new_tokens=1000, do_sample=True)
-decoded = tokenizer.batch_decode(generated_ids)
-print(decoded[0])
+if tokenizer.pad_token is None:
+    tokenizer.pad_token = tokenizer.eos_token
+
+# Simple text generation
+input_text = "The future of artificial intelligence is"
+print(f"\nInput: {input_text}")
+print("\nGenerated text:")
+
+inputs = tokenizer(input_text, return_tensors="pt").to(device)
+outputs = model.generate(
+    **inputs, 
+    max_new_tokens=100,
+    do_sample=True,
+    temperature=0.7,
+    pad_token_id=tokenizer.eos_token_id
+)
+
+generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+print(generated_text)
 
