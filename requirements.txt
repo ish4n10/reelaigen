@@ -1,3 +1,7 @@
 transformers
 torch
 torchvision
+langchain
+langchain-classic
+python-dotenv
+accelerate

@@ -1,6 +1,8 @@
 import os
 from ingestion.content import Content
-
+import langchain
+from langchain import LLMChain, PromptTemplate
+from langchain_classic.llms import HuggingFacePipeline
 # Set all Hugging Face cache directories BEFORE importing transformers
 # This ensures all downloads go to G: drive instead of C: drive
 cache_base = r"E:\huggingface_cache"
@@ -9,7 +11,7 @@ os.environ["HUGGINGFACE_HUB_CACHE"] = os.path.join(cache_base, "hub")
 os.environ["HF_DATASETS_CACHE"] = os.path.join(cache_base, "datasets")
 os.environ["TRANSFORMERS_CACHE"] = os.path.join(cache_base, "models")
 
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 # import torch
 
 device = "cuda" 

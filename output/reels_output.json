@@ -1,0 +1,61 @@
+{
+  "documentMeta": {
+    "title": "Analysis of Android Vulnerabilities and Modern Exploitation Techniques",
+    "audienceType": "Educational",
+    "difficulty": "Intermediate"
+  },
+  "topics": [
+    {
+      "id": "android-vulnerabilities-exploits",
+      "name": "Android Vulnerabilities and Exploits",
+      "relevance": 85,
+      "estimatedDepth": "Medium"
+    }
+  ],
+  "reelsPlan": [
+    {
+      "reelId": "reel-1",
+      "topicId": "android-vulnerabilities-exploits",
+      "title": "Understanding Android Architecture",
+      "targetDurationSec": 120,
+      "audienceLevel": "Intermediate",
+      "keyPoints": [
+        "Android Architecture Overview",
+        "Components of Android OS"
+      ]
+    },
+    {
+      "reelId": "reel-2",
+      "topicId": "android-vulnerabilities-exploits",
+      "title": "Analyzing Existing Threats and Security Weaknesses",
+      "targetDurationSec": 150,
+      "audienceLevel": "Advanced",
+      "keyPoints": [
+        "Common Threats to Android",
+        "Security Weaknesses in Android"
+      ]
+    },
+    {
+      "reelId": "reel-3",
+      "topicId": "android-vulnerabilities-exploits",
+      "title": "Identifying Exploit Mitigation Techniques",
+      "targetDurationSec": 180,
+      "audienceLevel": "Intermediate",
+      "keyPoints": [
+        "Exploit Mitigation Techniques",
+        "Case Studies"
+      ]
+    },
+    {
+      "reelId": "reel-4",
+      "topicId": "android-vulnerabilities-exploits",
+      "title": "Detailed Analysis of Vulnerabilities",
+      "targetDurationSec": 210,
+      "audienceLevel": "Advanced",
+      "keyPoints": [
+        "Detailed Analysis of Known Vulnerabilities",
+        "Strategic Directions"
+      ]
+    }
+  ]
+}

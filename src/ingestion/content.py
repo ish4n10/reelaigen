@@ -18,8 +18,8 @@ class Content:
         if not self.allText.strip():
             print("[WARN] No extractable text found.")
 
-        def get_data(self):
-            return {
-                "allText": self.allText,
-                "noOfSep": self.noOfSep,
-            }
+    def get_data(self):
+        return {
+            "allText": self.allText,
+            "noOfSep": self.noOfSep,
+        }
