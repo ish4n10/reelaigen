@@ -1,13 +1,14 @@
 import os
 from typing import Dict, Any
+import torch
 
-CACHE_BASE = os.getenv("HF_CACHE_BASE", r"G:\huggingface_cache")
+CACHE_BASE = os.getenv("HF_CACHE_BASE", r"D:\huggingface_cache")
 os.environ["HF_HOME"] = CACHE_BASE
 os.environ["TRANSFORMERS_CACHE"] = os.path.join(CACHE_BASE, "models")
 
-from transformers import pipeline
-from langchain_core.output_parsers import JsonOutputParser
-from langchain_core.prompts import PromptTemplate
+from transformers import pipeline   # noqa: E402
+from langchain_core.output_parsers import JsonOutputParser  # noqa: E402
+from langchain_core.prompts import PromptTemplate  # noqa: E402
 
 
 class ReelModel:
@@ -16,8 +17,10 @@ class ReelModel:
         self.pipeline = pipeline(
             "text-generation",
             model=model_name,
-            max_new_tokens=500,
-            temperature=0.7
+            max_new_tokens=1200,
+            temperature=0.7,
+            # device=0 if torch.cuda.is_available() else -1,
+            device=-1
         )
         self.json_parser = JsonOutputParser()
     
@@ -70,14 +73,34 @@ class ReelModel:
   ]
 }"""
         
-        prompt = f"""Create JSON for educational reels from this content:
+        prompt = f"""You are a professional educational content creator. Analyze the following content and create a structured JSON output for educational reels.
 
-Content: {content}
-Sections: {sections}
+content:{content}
+
+sections: {sections}
+
+CRITICAL REQUIREMENTS:
+1. Follow the JSON schema exactly as specified below
+2. Generate one reel entry in the "reels" array for EVERY corresponding entry in "reelsPlan"
+3. Each reel's narration.estimatedSpeechSec MUST closely match its corresponding reelsPlan.targetDurationSec
+4. Ensure reelId and topicId match between reelsPlan and reels entries
+5. Create engaging, educational narration that fits within the target duration
 
 {format_instructions}
 
-Return ONLY valid JSON, no other text:"""
+VALIDATION CHECKLIST BEFORE RETURNING:
+- Length of reelsPlan array equals length of reels array
+- Each reel has a matching reelsPlan entry (by reelId)
+- narration.estimatedSpeechSec is within ±10 seconds of targetDurationSec
+- All JSON is valid and properly formatted
+
+OUTPUT REQUIREMENTS:
+- Return ONLY the JSON object
+- No explanatory text before or after
+- No markdown code blocks
+- No comments within the JSON
+
+Generate the JSON now:"""
         
         response = self.pipeline(prompt)[0]["generated_text"]
         generated_text = response.replace(prompt, "").strip()
