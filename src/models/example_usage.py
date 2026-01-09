@@ -11,7 +11,14 @@ from typing import List, Dict
 
 def main():
    manim_model = ManimModel()
-   example_text = "In this video, we will explore the fascinating world of mathematics. We will start with an introduction to basic concepts, followed by detailed explanations and visualizations of complex equations. Finally, we will summarize the key points and provide additional resources for further learning."
+   example_text = (
+      "In this video, we will dive into the complex process of reverse engineering Windows system files. "
+      "We will start by explaining how Windows organizes critical system components such as DLLs, drivers, "
+      "and core executables, then move on to tools and techniques used to inspect binaries, analyze imports, "
+      "and understand low-level behavior. Finally, we will walk through a step-by-step example of dissecting "
+      "a system file to reveal its internal logic, security mechanisms, and potential vulnerabilities, while "
+      "discussing legal and ethical considerations of reverse engineering."
+   )
    manim_data = manim_model.generate_manim_data(content_text=example_text, time_length=300)
 
    print("Generated Manim Data:")
@@ -36,6 +43,6 @@ def generate_audio_from_reels():
 
 
 if __name__ == "__main__":
-   generate_audio_from_reels()
+   main()
 
 

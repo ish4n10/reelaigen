@@ -21,7 +21,7 @@ class ManimModel:
             model=model_name,
             max_new_tokens=500,
             temperature=0.7,
-            device=0
+            device=-1
         )
         self.json_parser = JsonOutputParser()
 
@@ -42,6 +42,10 @@ class ManimModel:
       "endTime": 5,
       "templateName": "text_intro {{}}",
       "content": "string content to pass to the template function",
+      "narration": {{
+        "speechTone": "string describing the tone (e.g., 'explanatory', 'enthusiastic', 'calm', 'professional')",
+        "text": "string with the narration text that explains what is happening in the scene"
+      }},
       "timestamp": 0.0,
       "sceneDescription": "string describing the scene",
       "explanationLevel": "string describing the explanation level"
@@ -53,6 +57,9 @@ Important:
 - startTime and endTime must be numbers (not strings)
 - templateName must be one of the available templates: {parsed_template_array}
 - content must be a string that will be passed as the first argument to the template function
+- narration must be an object containing:
+  - speechTone: a string describing the speech/audio tone appropriate for an explanatory video (e.g., "explanatory", "enthusiastic", "calm", "professional")
+  - text: a string containing the narration text that explains what is happening in the current scene, suitable for audio/speech in an explanatory video
 - timestamp must be a number (float) that will be passed as the second argument to the template function (typically use startTime or endTime)
 - sceneDescription should describe what will be shown in the manim scene
 - explanationLevel should indicate the level of detail (e.g., "basic", "intermediate", "advanced")
